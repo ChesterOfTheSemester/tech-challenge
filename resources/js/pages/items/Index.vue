@@ -21,6 +21,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 defineProps<{
     items: Array;
+    query: String;
+    type: String;
 }>();
 </script>
 
@@ -34,6 +36,26 @@ defineProps<{
                     <h3 class="text-2xl">Items</h3>
                     <Button :as="Link" :href="route('admin.items.create')">Create Item</Button>
                 </div>
+
+                <form method="GET" :action="route('admin.items.search')" class="mt-6 flex gap-2 items-center">
+                    <input
+                        type="text"
+                        name="q"
+                        :value="query || ''"
+                        v-model="query"
+                        placeholder="Search items..."
+                        class="border px-2 py-1 text-black"
+                    />
+
+                    <select name="type" :value="type" class="border px-2 py-1 text-black">
+                        <option :selected="!type" value="">All Types</option>
+                        <option value="info">Info</option>
+                        <option value="download">Download</option>
+                        <option value="WEBLINK">Weblink</option>
+                    </select>
+
+                    <Button type="submit">Search</Button>
+                </form>
 
                 <div class="mt-8 flex flex-col">
                     <Table>
@@ -54,7 +76,7 @@ defineProps<{
                                 <TableCell>{{ item.active ? 'Active' : 'Inactive' }}</TableCell>
                                 <TableCell class="text-right">
                                     <Button :as="Link" variant="link" :href="route('admin.items.edit', item.id)"> Edit </Button>
-                                    <Button variant="destructive" @click.prevent="console.log(deleteRoute); deleteRoute('admin.items.destroy', item.id)"> Delete </Button>
+                                    <Button variant="destructive" @click.prevent="deleteRoute('admin.items.destroy', item.id)"> Delete </Button>
                                 </TableCell>
                             </TableRow>
                         </TableBody>

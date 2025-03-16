@@ -10,6 +10,7 @@ use App\Models\Weblink;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Http\Request;
 
 class ItemsController extends Controller
 {
@@ -33,14 +34,16 @@ class ItemsController extends Controller
                 'content' => request('content.content'),
             ]),
             'download' => new Download([
-                'url =' => request('content.url'),
+                'url' => request('content.url'),
+                'button_text' => request('content.button_text', 'Download')
             ]),
             'WEBLINK' => new Weblink([
-                'url =' => request('content.url'),
+                'url' => request('content.url'),
+                'button_text' => request('content.button_text', 'Weblink')
             ]),
         };
-        $type->save();
 
+        $type->save();
         $type->item()->save(new Item(request()->only(['name', 'description'])));
 
         return redirect()->route('admin.items.index')->with('message', 'Successfully Created Item');
@@ -82,5 +85,27 @@ class ItemsController extends Controller
         $item->delete();
 
         return redirect()->route('admin.items.index')->with('success', 'Item deleted successfully');
+    }
+
+    public function search(Request $request): Response
+    {
+        $query = $request->input('q');
+        $type = $request->input('type');
+
+        $items = Item::query()
+            ->when($query, function ($q) use ($query) {
+                $q->where('name', 'like', "%{$query}%");
+            })
+            ->when($type, function ($q) use ($type) {
+                $q->where('content_type', $type);
+            })
+            ->oldest()
+            ->get();
+
+        return Inertia::render('items/Index', [
+            'items' => $items,
+            'query' => $query,
+            'type' => $type
+        ]);
     }
 }
