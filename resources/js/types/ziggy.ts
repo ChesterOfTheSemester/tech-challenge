@@ -3,7 +3,7 @@ import { Config, RouteParams, route } from 'ziggy-js';
 
 declare global {
     function route(): Config;
-    function route(name: string, params?: RouteParams<typeof name> | undefined, absolute?: boolean, method?: 'GET' | 'POST' | 'DELETE' | 'PATCH'): any;
+    function route(name: string, params?: RouteParams<typeof name> | undefined, absolute?: boolean): any;
 }
 
 export function deleteRoute(name: string, params?: RouteParams<typeof name>, absolute?: boolean) {

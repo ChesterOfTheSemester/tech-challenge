@@ -1,3 +1,24 @@
+## Changelog
+
+### Summary
+- Implemented search functionality with type filtering (`info`, `download`, `WEBLINK`).
+- Ensured all search parameters persist when submitting the form.
+- Fixed database errors by ensuring `button_text` is always set for `download` and `weblink` entries.
+- Added deletion feature by adding `deleteRoute` function in `ziggy.ts`, using Inertia’s `router.delete()` to send the request, trigger a confirmation, and reload the page on completion.
+
+#### Remaining Tasks:
+- Implement items restoration.
+- Implement item force deletion.
+- Implement pagination for large results.
+- Improve error handling for missing or invalid input.
+- Enhance the user interface for a smoother experience.
+- Add loading indicators for better user feedback.
+
+~ Chester
+
+---
+
+
 <p align="center">
   <a href="https://dblx.co.uk" target="_blank">
     <picture>
