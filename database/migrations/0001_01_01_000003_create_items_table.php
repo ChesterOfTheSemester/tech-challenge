@@ -19,6 +19,7 @@ return new class extends Migration
             $table->nullableMorphs('content');
             $table->boolean('active')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

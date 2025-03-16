@@ -43,9 +43,9 @@ class ItemPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Item $item): bool
+    public function delete(User $user, Item $item)
     {
-        //
+        return $user->admin;
     }
 
     /**

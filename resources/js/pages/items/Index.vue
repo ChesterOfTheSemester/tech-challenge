@@ -5,6 +5,8 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import type { BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
+import { route } from 'ziggy-js';
+import { deleteRoute } from '@/types/ziggy';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -52,6 +54,7 @@ defineProps<{
                                 <TableCell>{{ item.active ? 'Active' : 'Inactive' }}</TableCell>
                                 <TableCell class="text-right">
                                     <Button :as="Link" variant="link" :href="route('admin.items.edit', item.id)"> Edit </Button>
+                                    <Button variant="destructive" @click.prevent="console.log(deleteRoute); deleteRoute('admin.items.destroy', item.id)"> Delete </Button>
                                 </TableCell>
                             </TableRow>
                         </TableBody>
